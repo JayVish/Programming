@@ -75,35 +75,57 @@ def storeValues(x)
 		end
 		counter_height+=1
 	end
-	p values
+	return values
 end
 
-storeValues(ARGV[0])
-
-=begin
-if(ARGV[0]==0)
-    puts
-else
-    layercounter=6
+def printPyramid(values, x)
+	pyramid_height = x.to_i
+	center_star = values[values.length-1]/2+1
+	gap_right = 1
+	left_space = ""
+	(center_star-1).times do |z|
+		left_space += " " 
+	end
+	door_star_counter = 0
+	if pyramid_height%2!=0
+		door_star = pyramid_height/2
+	else
+		door_star = pyramid_height/2
+		gap_right=2
+	end
+	puts door_star
+	for num in 1..values.length
+		print "#{left_space}"
+		print "/"
+		if num > values.length-pyramid_height
+			for i in 0...values[num-1]
+				if door_star_counter >= ((values[num-1]/2+1)-door_star-1) && door_star_counter <= ((values[num-1]/2+1)+door_star-gap_right)
+					if pyramid_height>2 && num.to_f == (values.length-pyramid_height/2).round && door_star_counter >= (values[num-1]/2+1)-door_star-gap_right-1 && door_star_counter <= (values[num-1]/2+1)+door_star-gap_right-1
+						print "$"
+					else
+						print "|"
+					end
+				else
+					print "*"
+				end
+				door_star_counter+=1
+			end
+		else	
+			for i in 0...values[num-1]
+				print "*"
+			end
+		end
+		print "\\"
+		#Left_space value setting
+		left_space = ""
+		if num!=values.length
+			(center_star-(values[num]/2+1)).times do |y|
+				left_space += " " 
+			end
+		end
+		door_star_counter = 0
+		puts
+	end
 end
 
-
-#max layer is 71 -2 each one for first
-#first part of door starts at 31
-
-leftspace=""
-center = ARGV[0]
-#1,4 5,36 2, 10
-#+6 characters each layer
-charcounter_bottomlayer = 3+6*sigma
-36.time
-for num in 0...5
-    print "#{leftspace}/"
-    for i in 0..69-num*2
-        print "*"
-    end
-    print "\\"        
-    leftspace -= " "
-    puts
-end
-=end
+printPyramid(storeValues(ARGV[0]), ARGV[0])
