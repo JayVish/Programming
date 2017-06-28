@@ -58,13 +58,13 @@ def checkWin(board, shape, win_condition)
 
     #Checks win condition for columns
     for num in 0...board.length
-        for col in 0...board[num].length - 1
-             if board[col][num] == piece && (col == board.length-1 ||  board[col+1][num] == piece || piece_counter_cons == streak - 1)
+        for col in 0...board[num].length
+            if board[col][num] == piece && (col == board[num].length-1 ||  board[col+1][num] == piece || piece_counter_cons == streak - 1)
                 piece_counter_cons += 1
             else
                 piece_counter_cons = 0
             end
-            if piece_counter_cons >= streak 
+            if piece_counter_cons == streak 
                 isWon = true
             end
         end
