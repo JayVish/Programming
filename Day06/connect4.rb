@@ -56,10 +56,10 @@ def checkWin(board, shape, win_condition)
     end
     piece_counter_cons = 0
 
-    #Checks win condition for columns
-    for num in 0...board.length
-        for col in 0...board[num].length
-            if board[col][num] == piece && (col == board[num].length-1 ||  board[col+1][num] == piece || piece_counter_cons == streak - 1)
+   #Checks win condition for columns
+    for num in 0...board[0].length
+        for col in 0...board.length
+            if board[col][num] == piece && (col == board.length-1 ||  board[col+1][num] == piece || piece_counter_cons == streak - 1)
                 piece_counter_cons += 1
             else
                 piece_counter_cons = 0
@@ -71,6 +71,7 @@ def checkWin(board, shape, win_condition)
     end
     piece_counter_cons = 0
 
+
     #Checks win condition for diagonal going from the left up to the right (Designed for top left triangle)
     for r in 0...board.length
         for c in 0...board[r].length-r
@@ -85,33 +86,83 @@ def checkWin(board, shape, win_condition)
             end
         end
     end
-    piece_counter_cons = 0
 
-    #Checks win condition for diagonal going from the left up to the right (Designed for bottom right triangle)
+    #Checks win condition for diagonal going from the left up to the right (Designed for bottom right triangle).
+    piece_counter_cons = 0
+    piece_counter_cons_2 = 0
     for r in 0...board.length
-        for c in 0...board[r].length-r
+        for c in 0...board[r].length#-r
             #Current index = board.length-1. r brings us up by 1 to the next diagonal. c allows us to shift up for one diagonal.
             if board[(board.length-1)-c][c+r] == piece && (board[(board.length-1)-c-1][c+r+1] == piece || piece_counter_cons == streak - 1)
                 piece_counter_cons += 1
             else
                 piece_counter_cons = 0
             end
+            if board[(board.length-1)-r-c][(board[0].length-1)-c] == piece && (c == board[0].length-r-1 || board[(board.length-1)-c-r-1][(board[r].length-1)-c-1] == piece || piece_counter_cons == streak - 1)
+                piece_counter_cons2 += 1
+            else 
+                piece_counter_cons2 = 0
+            end
             if piece_counter_cons >= streak 
+                isWon2 = true
+            end
+            if piece_counter_cons >= streak 
+                isWon = true
+            end
+        end
+    end
+
+=begin
+    #Checks win condition for diagonal going from the right up to left (Designed for top right triangle)
+    for r in 0...board.length
+        for c in 0...board[r].length
+            #Current index = board.length-1. r brings us up by 1 to the next diagonal. c allows us to shift up for one diagonal.
+            if board[(board.length-1)-r-c][(board[0].length-1)-c] == piece && (c == board[0].length-r-1 || board[(board.length-1)-c-r-1][(board[r].length-1)-c-1] == piece || piece_counter_cons == streak - 1)
+                piece_counter_cons2 += 1
+            else 
+                piece_counter_cons2 = 0
+            end
+            if piece_counter_cons >= streak 
+                isWon2 = true
+            end
+        end
+    end
+=end
+    piece_counter_cons = 0
+    piece_counter_cons2 = 0
+
+    #Checks win condition for diagonal going from the right up to left (Designed for top right triangle)
+    for r in 0...board.length
+        for c in 0...board[r].length
+            #Current index = board.length-1. r brings us up by 1 to the next diagonal. c allows us to shift up for one diagonal.
+            if board[(board.length-1)-r-c][(board[0].length-1)-c] == piece && (c == board[0].length-r-1 || board[(board.length-1)-c-r-1][(board[r].length-1)-c-1] == piece || piece_counter_cons == streak - 1)
+                piece_counter_cons += 1
+            else 
+                piece_counter_cons = 0
+            end
+            if board[(board.length-1)-c][(board[0].length-1)-r-c] == piece && (c == board[0].length-r-1 || board[(board.length-1)-c-1][(board[r].length-1)-r-c-1] == piece || piece_counter_cons == streak - 1)
+                piece_counter_cons2 += 1
+            else 
+                piece_counter_cons2 = 0
+            end
+            if piece_counter_cons >= streak 
+                isWon = true
+            end
+            if piece_counter_cons2 >= streak 
                 isWon = true
             end
         end
     end
     piece_counter_cons = 0
 
-    return isWon
-
-    #Checks win condition for diagonal going from the left up to the right (Designed for top left triangle)
+=begin
+    #Checks win condition for diagonal going from the right up to left (Designed for top right triangle)
     for r in 0...board.length
-        for c in 0...board[r].length-r
+        for c in 0...board[r].length
             #Current index = board.length-1. r brings us up by 1 to the next diagonal. c allows us to shift up for one diagonal.
-            if board[(board.length-1)-r-c][c] == piece && (board[(board.length-1)-c-r-1][c+1] == piece || piece_counter_cons == streak - 1)
+            if board[(board.length-1)-c][(board[0].length-1)-r-c] == piece && (c == board[0].length-r-1 || board[(board.length-1)-c-1][(board[r].length-1)-r-c-1] == piece || piece_counter_cons == streak - 1)
                 piece_counter_cons += 1
-            else
+            else 
                 piece_counter_cons = 0
             end
             if piece_counter_cons >= streak 
@@ -120,6 +171,9 @@ def checkWin(board, shape, win_condition)
         end
     end
     piece_counter_cons = 0
+=end
+
+return isWon
 end
 
 isWon = false
