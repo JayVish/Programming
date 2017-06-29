@@ -8,6 +8,8 @@ def sumArray(a)
     return sum
 end
 
+
+
 str_array_digits = ARGV[0].split("")
 value_to_achieve = ARGV[1].to_i
 correct_combinations = Array.new {Array.new}
